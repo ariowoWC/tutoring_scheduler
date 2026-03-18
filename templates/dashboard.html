@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block main %}
+    {% for session_id in session_data %}
+        <h3> Tutor: {{ session_id[1] }} </h3>
+        <p> Student: {{ session_id[2] }} </p>
+        <p> Room: {{ session_id[3] }} </p>
+        <p> Time: {{ session_id[4] }} </p>
+    {% endfor %}
+{% endblock %}

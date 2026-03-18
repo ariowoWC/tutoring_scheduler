@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Create new session</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <div class="form-label">Tutor:</div>
+            <div class="form-element"><input type="text" name="session_tutor"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label">Student:</div>
+            <div class="form-element"><input type="text" name="session_student"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label">Room:</div>
+            <div class="form-element"><input type="text" name="session_room"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label">Time:</div>
+            <div class="form-element"><input type="time" name="session_time"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label"></div>
+            <div class="form-element"><input type="submit" value="Submit"></div>
+        </div>
+    </form>
+{% endblock %}

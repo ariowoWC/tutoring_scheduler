@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 import sqlite3
 from sqlite3 import Error
 
@@ -21,17 +21,44 @@ def connect_database(db_file):
 def render_homepage():
     return render_template('base.html')
 
+@app.route('/signup')
+def render_signup():
+    return render_template('signup.html')
+
+@app.route('/login')
+def render_login():
+    return render_template('login.html')
+
 
 @app.route('/dashboard')
 def render_dashboard_page():
     con = connect_database(DATABASE)
-    query = "SELECT session_id, session_tutor, session_tutee, session_room, session_time FROM session_db"
+    query = "SELECT session_id, session_tutor, session_student, session_room, session_time FROM session_db"
     cur = con.cursor()
     cur.execute(query)
     sessions = cur.fetchall()
     print(sessions)
     con.close()
+
     return render_template('dashboard.html', session_data=sessions)
+
+
+@app.route('/addsession', methods=['POST', 'GET'])
+def render_add_page():
+    if request.method == 'POST':
+        session_tutor = request.form.get('session_tutor')
+        session_student = request.form.get('session_student')
+        session_room = request.form.get('session_room')
+        session_timed = request.form.get('session_time')
+
+        con = connect_database(DATABASE)
+        query_insert = "INSERT INTO session_db (session_tutor, session_student, session_room, session_time) VALUES (?, ?, ?, ?)"
+        cur = con.cursor()
+        cur.execute(query_insert, (session_tutor, session_student, session_room, session_timed))
+        con.commit()
+        con.close()
+
+    return render_template('addsession.html')
 
 
 @app.route('/contact')

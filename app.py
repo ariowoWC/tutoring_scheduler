@@ -21,9 +21,40 @@ def connect_database(db_file):
 def render_homepage():
     return render_template('base.html')
 
-@app.route('/signup')
-def render_signup():
-    return render_template('signup.html')
+@app.route('/tutee_signup', methods=['POST', 'GET'])
+def render_signup_page():
+    if request.method == 'POST':
+        tutee_fname = request.form.get('user_fname').title().strip()
+        tutee_lname = request.form.get('user_lname').title().strip()
+        tutee_email = request.form.get('user_email').lower().strip()
+        tutee_password = request.form.get('user_password')
+
+        con = connect_database(DATABASE)
+        query_insert = "INSERT INTO tutees (tutee_fname, tutee_lname, tutee_email, tutee_password) VALUES (?, ?, ?, ?)"
+        cur = con.cursor()
+        cur.execute(query_insert, (tutee_fname, tutee_lname, tutee_email, tutee_password))
+        con.commit()
+        con.close()
+
+    return render_template('tutee_signup.html')
+
+@app.route('/tutor_signup', methods=['POST', 'GET'])
+def render_tutor_signup_page():
+    if request.method == 'POST':
+        tutor_fname = request.form.get('user_fname').title().strip()
+        tutor_lname = request.form.get('user_lname').title().strip()
+        tutor_email = request.form.get('user_email').lower().strip()
+        tutor_password = request.form.get('user_password')
+
+        con = connect_database(DATABASE)
+        query_insert = "INSERT INTO tutees (tutor_fname, tutor_lname, tutor_email, tutor_password) VALUES (?, ?, ?, ?)"
+        cur = con.cursor()
+        cur.execute(query_insert, (tutor_fname, tutor_lname, tutor_email, tutor_password))
+        con.commit()
+        con.close()
+
+    return render_template('tutor_signup.html')
+
 
 @app.route('/login')
 def render_login():

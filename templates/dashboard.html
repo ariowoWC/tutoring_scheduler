@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 
 {% block main %}
-
+    <table>
+    <thead>
+        <tr>
+            <th>Tutor</th>
+            <th>Student</th>
+            <th>Room</th>
+            <th>time</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for session_id in session_data %}
-        <h3> Tutor: {{ session_id[1] }} </h3>
-        <p> Student: {{ session_id[2] }} </p>
-        <p> Room: {{ session_id[3] }} </p>
-        <p> Time: {{ session_id[4] }} </p>
+        <tr>
+        <td> {{ session_id[1] }} </td>
+        <td> {{ session_id[2] }} </td>
+        <td> {{ session_id[3] }} </td>
+        <td> {{ session_id[4] }} </td>
+        </tr>
     {% endfor %}
+    </tbody>
+
+    </table>
+
+
 
 {% endblock %}
 

@@ -7,9 +7,34 @@ h1{
   font-weight: 700;
 }
 
+table{
+  border-collapse: collapse;
+  margin: 1rem;
+}
+
 td{
-  width: 30%;
   display: table-cell;
   text-align: center;
-  padding: 0.5rem;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+td:hover {
+background-color: #f2f2f2;
+}
+
+
+nav{
+  margin: 1rem;
+
+}
+
+a{
+  padding: 10px;
+  border: 3px solid black;
+  border-radius: 10px;
+}
+
+a:hover{
+  background-color: #f2f2f2;
 }

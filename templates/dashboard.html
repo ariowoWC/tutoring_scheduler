@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
+    <br>
     <table>
     <thead>
         <tr>
@@ -11,6 +12,7 @@
         </tr>
     </thead>
     <tbody>
+
     {% for session_id in session_data %}
         <tr>
         <td> {{ session_id[1] }} </td>

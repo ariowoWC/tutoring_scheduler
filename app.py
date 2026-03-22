@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import sqlite3
 from sqlite3 import Error
 
@@ -47,7 +47,7 @@ def render_tutor_signup_page():
         tutor_password = request.form.get('user_password')
 
         con = connect_database(DATABASE)
-        query_insert = "INSERT INTO tutees (tutor_fname, tutor_lname, tutor_email, tutor_password) VALUES (?, ?, ?, ?)"
+        query_insert = "INSERT INTO tutors (tutor_fname, tutor_lname, tutor_email, tutor_password) VALUES (?, ?, ?, ?)"
         cur = con.cursor()
         cur.execute(query_insert, (tutor_fname, tutor_lname, tutor_email, tutor_password))
         con.commit()
@@ -56,9 +56,42 @@ def render_tutor_signup_page():
     return render_template('tutor_signup.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def render_login():
+    if request.method == 'POST':
+        tutor_email = request.form.get('user_email').lower().strip()
+        tutor_password = request.form.get('user_password')
+
+        query = "SELECT tutor_id, tutor_fname, tutor_password FROM tutors WHERE tutor_email = ?"
+
+        con = connect_database(DATABASE)
+        cur = con.cursor()
+        cur.execute(query, (tutor_email,))
+        tutor_info = cur.fetchall()
+        con.close()
+        print(tutor_info)
+
+        try:
+            user_name = tutor_info[1]
+            user_password = tutor_info[2]
+
+        except IndexError:
+            print("invalid email")
+            return redirect('/login?error=invalid+email+or+password')
+
+        if user_password != tutor_password:
+            print("invalid password")
+            return redirect('/login?error=invalid+email+or+password')
+
+        session['email'] = tutor_email
+        session['name'] = user_name
+
+        print(session)
+
+        return redirect('/')
+
     return render_template('login.html')
+
 
 
 @app.route('/dashboard')
